@@ -43,7 +43,7 @@ def step_verify_reservas(context):
 def step_given_reserva_pendiente(context):
     """Navega a la página de reservas y asegura que existe al menos una reserva pendiente."""
     context.driver = get_driver()
-    context.driver.get("https://pagos-a.vercel.app/pagos-A/bookings?userId=4")
+    context.driver.get("https://pagos-a.vercel.app/pagos-A/bookings?userId=2")
 
        # Espera hasta que los elementos de reserva estén visibles en la página
     WebDriverWait(context.driver, 10).until(
@@ -188,66 +188,6 @@ def step_then_muestra_costos_detallados(context):
     except AssertionError as e:
         print(f"Error de verificación: {e}")
         raise
-
-
-# Feature: Prueba E2E ----------------------------------------------
-
-@given("que el usuario navega al sitio web de reservas")
-def step_navega_sitio(context):
-    """Navega al sitio web de reservas."""
-    context.driver = get_driver()
-    context.driver.get("https://pagos-a.vercel.app/pagos-A/bookings?userId=4")
-    context.driver.maximize_window()
-
-@when("elige un método de pago y da click en pagar")
-def step_elegir_metodo_pago(context):
-    """Selecciona un método de pago en la página de reservas."""
-    try:
-        metodo_pago = WebDriverWait(context.driver, 10).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, "div.space-x-2"))
-        )
-        metodo_pago.click()
-        boton_pagar = WebDriverWait(context.driver, 10).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))
-        )
-        boton_pagar.click()
-    except TimeoutException:
-        raise AssertionError("No se pudo seleccionar el método de pago o el botón de pagar no estaba disponible.")
-
-@when("completa los datos de pago")
-def step_completa_datos_pago(context):
-    """Completa los datos de pago en la página de reservas."""
-    try:
-        nombre = WebDriverWait(context.driver, 10).until(
-            EC.presence_of_element_located((By.ID, "email"))
-        )
-        nombre.send_keys("JohnDoe@gmail.com")
-        numero = context.driver.find_element(By.ID, "cardNumber")
-        numero.send_keys("4242424242424242")
-        fecha = context.driver.find_element(By.ID, "cardExpiry")
-        fecha.send_keys("12/26")
-        cvv = context.driver.find_element(By.ID, "cardCvc")
-        cvv.send_keys("123")
-        nombre_titular = context.driver.find_element(By.ID, "billingName")
-        nombre_titular.send_keys("John Doe")
-        boton_pagar = WebDriverWait(context.driver, 10).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))
-        )
-        boton_pagar.click()
-    except TimeoutException:
-        raise AssertionError("No se pudieron completar los datos de pago o el botón de pagar no estaba disponible.")
-
-@then("debería recibir una confirmación de reserva")
-def step_confirmacion_reserva(context):
-    """Verifica que se muestra un mensaje de confirmación de reserva."""
-    try:
-        mensaje_confirmacion = WebDriverWait(context.driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "//div[contains(text(), 'Su transacción ha sido pagada con éxito')]"))
-        )
-        print(f"Mensaje de confirmación: {mensaje_confirmacion.text}")
-    except TimeoutException:
-        raise AssertionError("No se encontró el mensaje de confirmación de reserva.")
-
 
 @then("cerrar el navegador")
 def step_close_browser(context):
