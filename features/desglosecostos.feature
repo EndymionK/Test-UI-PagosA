@@ -7,3 +7,6 @@ Feature: Desglose de costos al usuario
     Given que el pasajero está viendo la página de pago
     When el sistema muestra el desglose de costos
     Then debe mostrar todos los costos y tarifas detallados aplicados
+
+
+
