@@ -12,7 +12,7 @@ from selenium.common.exceptions import TimeoutException
 def step_user_on_reservas(context):
     """Navega directamente a la página de 'Mis reservas'."""
     context.driver = get_driver()
-    context.driver.get("https://pagos-a.vercel.app/pagos-A/bookings?userId=2") 
+    context.driver.get("https://pagos-a.vercel.app/pagos-A/bookings?userId=1") 
 
 @then("debería poder ver las reservas marcadas como pendientes, pagadas o canceladas.")
 def step_verify_reservas(context):
@@ -43,7 +43,7 @@ def step_verify_reservas(context):
 def step_given_reserva_pendiente(context):
     """Navega a la página de reservas y asegura que existe al menos una reserva pendiente."""
     context.driver = get_driver()
-    context.driver.get("https://pagos-a.vercel.app/pagos-A/bookings?userId=2")
+    context.driver.get("https://pagos-a.vercel.app/pagos-A/bookings?userId=4")
 
        # Espera hasta que los elementos de reserva estén visibles en la página
     WebDriverWait(context.driver, 10).until(
@@ -173,15 +173,15 @@ def step_then_muestra_costos_detallados(context):
         
         # Verificar el precio de los tickets
         precio_tickets = resumen_compra.find_element(By.XPATH, "//ul/li/span[normalize-space(text())='Precio de tickets']/following-sibling::span")
-        assert "155.000 COP" in precio_tickets.text, f"Se esperaba '155.000 COP', pero se encontró: {precio_tickets.text}"
+        assert "155.000 COP" in precio_tickets.text, f"Se esperaba '210.000 COP', pero se encontró: {precio_tickets.text}"
 
         # Verificar impuestos y cargos
         impuestos_cargos = resumen_compra.find_element(By.XPATH, "//ul/li/span[normalize-space(text())='Impuestos y cargos']/following-sibling::span")
-        assert "4.200 COP" in impuestos_cargos.text, f"Se esperaba '4.200 COP', pero se encontró: {impuestos_cargos.text}"
+        assert "4.200 COP" in impuestos_cargos.text, f"Se esperaba '7.000 COP', pero se encontró: {impuestos_cargos.text}"
 
         # Verificar el total
         total = resumen_compra.find_element(By.XPATH, "//li[span[contains(text(), 'Total')]]/span[2]")
-        assert "159.200 COP" in total.text, f"Se esperaba '159.200 COP', pero se encontró: {total.text}"
+        assert "159.200 COP" in total.text, f"Se esperaba '217.000 COP', pero se encontró: {total.text}"
 
         print("Desglose de costos verificado correctamente.")
 
