@@ -4,8 +4,6 @@ from tasks.seleccionar_reserva import SeleccionarReserva
 from questions.metodo_pago import MetodoPago
 from utils.browser_setup import get_driver
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.by import By
 
 @given('que el pasajero ya está en la sección "Mis reservas"')
 def step_user_on_reservas(context):
