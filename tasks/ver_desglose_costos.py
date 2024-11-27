@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from userinterfaces.pago import PagoUI
 
 class VerDesgloseCostos:
     @staticmethod
@@ -9,7 +10,7 @@ class VerDesgloseCostos:
         Espera hasta que el desglose de costos sea visible en la página.
         """
         WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, ".rounded-xl.border.text-card-foreground.shadow"))
+            EC.presence_of_element_located((By.CSS_SELECTOR, PagoUI.DESGLOSE_COSTOS))  # Usamos la variable DESGLOSE_COSTOS
         )
 
     @staticmethod
@@ -22,7 +23,7 @@ class VerDesgloseCostos:
             valores_esperados: Diccionario con los valores esperados. Ejemplo:
                                {"Precio de tickets": "155.000 COP", "Total": "159.200 COP"}
         """
-        desglose = driver.find_element(By.CSS_SELECTOR, ".rounded-xl.border.text-card-foreground.shadow")
+        desglose = driver.find_element(By.CSS_SELECTOR, PagoUI.DESGLOSE_COSTOS)  # Usamos la variable DESGLOSE_COSTOS
         
         for key, value in valores_esperados.items():
             # Localizar el valor asociado a la clave en el desglose
